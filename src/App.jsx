@@ -1,26 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTodoContext, TodoProvider } from "./context/useTodoContext";
 import TodoForm from "./components/TodoForm";
 import TodoCard from "./components/TodoCard";
 
 const AppContent = () => {
-  const { todos } = useTodoContext();
+  const { todos, setTodos } = useTodoContext();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("todoList"));
+
+    if (todos && todos.length > 0) {
+      setTodos(todos);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todos));
+  }, [todos]);
 
   return (
-    <div className="bg-[#172842] min-h-screen py-8">
-      <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
-        <h1 className="text-2xl font-bold text-center mb-8 mt-2">
-          Manage Your Todos
-        </h1>
-        <div className="mb-4">
-          <TodoForm />
-        </div>
-        <div className="flex flex-wrap gap-y-3">
-          {todos.map((todoItem) => (
-            <div key={todoItem.id} className="w-full">
-              <TodoCard todo={todoItem} />
-            </div>
-          ))}
+    <div className={`${isDarkMode ? "dark" : ""}`}>
+      <div className="bg-gray-50 dark:bg-gray-900 min-h-screen py-8">
+        <div className="w-full max-w-2xl mx-auto shadow-lg rounded-lg px-6 py-4 bg-white dark:bg-gray-800">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-semibold text-gray-800 dark:text-gray-200">
+              Manage Your Todos
+            </h1>
+            <button
+              className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg"
+              onClick={() => setIsDarkMode((prev) => !prev)}
+            >
+              {isDarkMode ? "🌞 Light Mode" : "🌕 Dark Mode"}
+            </button>
+          </div>
+          <div className="mb-6">
+            <TodoForm />
+          </div>
+          <div className="flex flex-wrap gap-y-4">
+            {todos.map((todoItem) => (
+              <div key={todoItem.id} className="w-full">
+                <TodoCard todo={todoItem} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

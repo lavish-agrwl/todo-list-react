@@ -18,7 +18,7 @@ function TodoForm() {
       <input
         type="text"
         placeholder="Write Todo..."
-        className="w-full border border-black/10 rounded-l-lg px-3 outline-none duration-150 bg-white/20 py-1.5"
+        className="w-full border rounded-l-lg px-3 outline-none duration-150 bg-gray-50 dark:bg-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 py-2 text-sm"
         value={todoText}
         onChange={(event) => {
           setTodoText(event.target.value);
@@ -26,7 +26,7 @@ function TodoForm() {
       />
       <button
         type="submit"
-        className="rounded-r-lg px-3 py-1 bg-green-600 text-white shrink-0"
+        className="rounded-r-lg px-4 py-2 bg-green-500 text-white text-sm hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-600 duration-150"
       >
         Add
       </button>
